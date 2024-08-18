@@ -15,4 +15,14 @@ export class MessageService {
   clear() {
     this.messages = []
   }
+
+  addId():number {
+    const id:number = Math.floor(Math.random() * 101)
+    const idIsRepeat:boolean = this.messages.some((message:Message) => message.id === id)
+
+    if (idIsRepeat) {
+      return this.addId()
+    }
+    return id
+  }
 }

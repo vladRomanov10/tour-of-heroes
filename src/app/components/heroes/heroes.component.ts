@@ -36,7 +36,7 @@ export class HeroesComponent {
     this.selectedHero = hero
     this.messageService.add(
       {
-        id: Math.floor(Math.random() * 101),
+        id: this.messageService.addId(),
         value: `HeroesComponent: Selected hero id=${hero.id}`
       })
   }

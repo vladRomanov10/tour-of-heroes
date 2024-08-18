@@ -14,8 +14,10 @@ export class HeroService {
   getHeroes(): Observable<Hero[]> {
     const heroes$:Observable<Hero[]> = of(HEROES)
     this.messageService.add(
-      {id: Math.floor(Math.random() * 101),
-      value: 'HeroService: fetched heroes'})
+      {
+        id: this.messageService.addId(),
+        value: 'HeroService: fetched heroes'
+      })
 
     return heroes$
   }
