@@ -1,7 +1,16 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, inject } from '@angular/core';
+
 import {FormsModule} from "@angular/forms";
-import {UpperCasePipe} from "@angular/common";
-import {Hero} from "../../types/interfaces/hero.interface";
+
+import {UpperCasePipe, Location } from "@angular/common";
+
+import { ActivatedRoute } from "@angular/router";
+
+import { HeroService } from "../../services/hero.service";
+import { Hero } from "../../types/interfaces/hero.interface";
+
+import { Observable, Subscription } from "rxjs";
+
 
 @Component({
   selector: 'app-hero-detail',
@@ -15,6 +24,25 @@ import {Hero} from "../../types/interfaces/hero.interface";
 })
 export class HeroDetailComponent {
 
-  @Input() hero?: Hero
+  private readonly route: ActivatedRoute = inject(ActivatedRoute)
+  private readonly heroService: HeroService = inject(HeroService)
+  private readonly location: Location = inject(Location)
+
+  public hero?:Hero
+
+  ngOnInit():void {
+    this.getHero()
+  }
+
+  goBack():void {
+    this.location.back()
+  }
+
+  private getHero():void {
+    const id:number = Number(this.route.snapshot.paramMap.get('id'))
+
+    const hero$:Observable<Hero> = this.heroService.getHero(id)
+    const heroSubs:Subscription = hero$.subscribe(hero => this.hero = hero)
+  }
 
 }
