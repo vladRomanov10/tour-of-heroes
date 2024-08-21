@@ -8,7 +8,9 @@ import {InMemoryDataService} from "./services/in-memory-data.service";
 import { routes } from './app.routes';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideHttpClient(),
-    importProvidersFrom([HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {dataEncapsulation: false})]),
+  providers: [
+    provideHttpClient(),
+    importProvidersFrom([HttpClientInMemoryWebApiModule.forRoot(InMemoryDataService, {dataEncapsulation: false, delay: 1000})]
+    ),
     provideRouter(routes)]
 };
