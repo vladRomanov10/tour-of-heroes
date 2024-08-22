@@ -19,6 +19,9 @@ export class HeroService {
   private readonly http:HttpClient = inject(HttpClient)
 
   private readonly heroesUrl:string = 'api/heroes'
+  private readonly httpOptions:object = {
+    headers: new HttpHeaders({'Content type':'application/json'})
+  }
 
   getHeroes(): Observable<Hero[]> {
     const heroes$ = this.http.get<Hero[]>(this.heroesUrl)
@@ -36,6 +39,22 @@ export class HeroService {
       .pipe(
         tap(_ => this.log(`fetched hero id =${id}}`)),
         catchError(this.handleError<Hero>(`getHero id${id}}`))
+      )
+  }
+
+  updateHero(hero: Hero):Observable<any> {
+    return this.http.put(this.heroesUrl, hero, this.httpOptions)
+      .pipe(
+        tap(_=>this.log(`update hero id=${hero.id}`)),
+        catchError(this.handleError<any>('updateHero'))
+      )
+  }
+
+  addHero(hero: Hero): Observable<Hero> {
+    return this.http.post<Hero>(this.heroesUrl, hero, this.httpOptions)
+      .pipe(
+        tap((newHero:Hero) => this.log(`added hero w/ id=${newHero.id}`)),
+        catchError(this.handleError<Hero>('addHero'))
       )
   }
 

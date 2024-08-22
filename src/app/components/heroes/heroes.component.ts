@@ -29,6 +29,15 @@ export class HeroesComponent {
     this.getHeroes()
   }
 
+  add(name: string):void {
+    name = name.trim()
+    if (!name) {return}
+    this.heroService.addHero({ name } as Hero)
+      .subscribe(hero => {
+        this.heroes.push(hero)
+      })
+  }
+
   private getHeroes(): void {
     const heroes$:Observable<Hero[]> = this.heroService.getHeroes()
     const heroesSubs:Subscription = heroes$.subscribe((heroes:Hero[]) => this.heroes = heroes)
