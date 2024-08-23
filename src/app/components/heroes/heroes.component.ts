@@ -1,4 +1,4 @@
-import {Component, inject} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {Hero} from "../../types/interfaces/hero.interface";
 import {UpperCasePipe} from "@angular/common";
 import {FormsModule} from "@angular/forms";
@@ -19,7 +19,7 @@ import {RouterLink} from "@angular/router";
   templateUrl: './heroes.component.html',
   styleUrl: './heroes.component.scss'
 })
-export class HeroesComponent {
+export class HeroesComponent implements OnInit {
 
   private readonly heroService:HeroService = inject(HeroService)
 
@@ -36,6 +36,11 @@ export class HeroesComponent {
       .subscribe(hero => {
         this.heroes.push(hero)
       })
+  }
+
+  delete(hero: Hero): void {
+    this.heroes = this.heroes.filter((h: Hero) => h !== hero)
+    this.heroService.deleteHero(hero.id).subscribe()
   }
 
   private getHeroes(): void {

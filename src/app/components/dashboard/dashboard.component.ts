@@ -3,11 +3,12 @@ import {Hero} from "../../types/interfaces/hero.interface";
 import {HeroService} from "../../services/hero.service";
 import {Observable, Subscription} from "rxjs";
 import {RouterLink} from "@angular/router";
+import {HeroSearchComponent} from "../hero-search/hero-search.component";
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [RouterLink],
+  imports: [RouterLink, HeroSearchComponent],
   templateUrl: './dashboard.component.html',
   styleUrl: './dashboard.component.scss'
 })
